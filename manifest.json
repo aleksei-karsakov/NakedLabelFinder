@@ -1,0 +1,23 @@
+{
+    "name": "NakedLabelsFinder",
+    "description": "Plugin for searching for naked labels",
+    "version": "1.0",
+    "manifest_version": 3,
+    "permissions": [
+        "tabs",
+        "tabGroups",
+        "scripting",
+        "activeTab",
+        "storage",
+        "webNavigation"
+    ],
+    "action": {
+        "default_title": "NakedLabelsFinder"
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "host_permissions": [
+        "<all_urls>"
+    ]
+}
