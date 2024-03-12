@@ -35,13 +35,9 @@ delay(4000)
             }
         }
         else if (labels.length != 0) {
-            console.log('Отправил сообщение в Slack');
+            console.log('Отправил сообщение в Slack, слишком много меток');
         };
     });
-
-
-
-
 
 //Функция задержки
 function delay(time) {
@@ -68,8 +64,9 @@ function createIssue(nakedLabel) {
             }
         );
     });
-
+    sessionStorage.setItem(nakedLabel, nakedLabel);
 }
+
 
 //Проверка, есть ли уже такой тикет
 function alreadyCreated(nakedLabel) {
@@ -88,8 +85,10 @@ function alreadyCreated(nakedLabel) {
     ).then(
         response => {
             if (response.length == 0) {
-                console.log('Создаю тикет для метки без перевода ' + nakedLabel);
-                createIssue(nakedLabel);
+                if (!sessionStorage.getItem(nakedLabel)) {
+                    console.log('Создаю тикет для метки без перевода ' + nakedLabel);
+                    createIssue(nakedLabel);
+                }
             }
             else console.log('Тикет с меткой без перевода ' + nakedLabel + ' уже есть.');
         } // Handle the success response object
