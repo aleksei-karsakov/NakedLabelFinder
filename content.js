@@ -1,12 +1,12 @@
 
 //Поиск голых меток на странице
-console.log("NakedLabelFinder is starting to work");
+//console.log("NakedLabelFinder is starting to work");
 var perm = 'perm:YWxla3NlaS5rYXJzYWtvdg==.NjQtMjkz.Xj9j0grYiJ8kbgPTGisXHMk3LTgEeX';
 var all = document.getElementsByTagName('*'); //Находим абсолютно все элементы
 //Сравниваем имя элементов с nakedLabel
 var labels = [];
 
-delay(4000)
+delay(0)
     .then(() => {
         for (var i = 0; i < all.length; i++) {
             let povtor = 0;
@@ -25,17 +25,18 @@ delay(4000)
                 }
             };
         };
-        console.log(labels);
+        //console.log(labels);
 
         //Обрабатываем полученные голые метки(если они есть)
-        if (labels.length > 0 && labels.length < 5) {
+        if (labels.length > 0 && labels.length < 10) {
             for (let i = 0; i < labels.length; i++) {
                 delay(0)
                     .then(() => alreadyCreated(labels[i]));
             }
         }
         else if (labels.length != 0) {
-            console.log('Отправил сообщение в Slack, слишком много меток');
+            console.log('[NakedLabelFinder]:Отправил сообщение в Slack, слишком много меток');
+            sendSlackMessage();
         };
     });
 
@@ -81,16 +82,21 @@ function alreadyCreated(nakedLabel) {
             }
         }
     ).then(
-        resp => resp.json() // if the response is a JSON object
+        resp => resp.json() // обрабатываем ответ
     ).then(
         response => {
             if (response.length == 0) {
                 if (!sessionStorage.getItem(nakedLabel)) {
-                    console.log('Создаю тикет для метки без перевода ' + nakedLabel);
+                    console.log('[NakedLabelFinder]: Создаю тикет для метки без перевода ' + nakedLabel);
                     createIssue(nakedLabel);
                 }
             }
-            else console.log('Тикет с меткой без перевода ' + nakedLabel + ' уже есть.');
-        } // Handle the success response object
+            else console.log('[NakedLabelFinder]: Тикет с меткой без перевода ' + nakedLabel + ' уже есть.');
+        }
     );
+}
+
+//Отправка сообщения в Slack
+function sendSlackMessage() {
+
 }
